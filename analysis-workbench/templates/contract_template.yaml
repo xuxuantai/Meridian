@@ -1,0 +1,37 @@
+meta:
+  id: ""
+  title: ""
+  created: ""
+  updated: ""
+  phase: "contract"
+  locked: false
+
+metrics: []
+  # 示例:
+  # - id: "active_user"
+  #   name: "活跃用户"
+  #   definition: "当日有至少一次核心行为（发帖、评论、点赞）的去重用户数"
+  #   formula: "COUNT(DISTINCT user_id) WHERE action IN ('post','comment','like')"
+  #   unit: "人"
+  #   exclusions:
+  #     - "排除内部测试账号（user_tag = 'internal'）"
+  #     - "排除注册未满24小时的账号"
+  #   locked: false
+  #   source: "用户确认"
+  #   version: 1
+
+data_constraints: []
+  # 示例:
+  # - id: "dc_time_range"
+  #   description: "分析时间范围"
+  #   rule: "2026-04-01 至 2026-06-26"
+  #   locked: false
+
+business_rules: []
+  # 示例:
+  # - id: "br_revenue"
+  #   description: "营收口径"
+  #   rule: "以财务系统确认的已回款金额为准，不含应收账款"
+  #   locked: false
+
+conclusions: []
