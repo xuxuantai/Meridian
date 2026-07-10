@@ -1,0 +1,11 @@
+extracted_assets: []
+  # - id: "asset_001"
+  #   asset_type: "skill | metric | knowledge | template | evaluation | failure_mode"
+  #   title: ""
+  #   source_run: ""
+  #   description: ""
+  #   proposed_location: ""
+  #   status: "proposed | accepted | rejected"
+  #   notes: ""
+lessons_learned: []
+  # - ""

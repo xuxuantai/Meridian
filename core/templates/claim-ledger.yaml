@@ -1,0 +1,12 @@
+claims: []
+  # - id: "claim_001"
+  #   statement: ""
+  #   claim_type: "fact | interpretation | forecast | recommendation | assumption"
+  #   evidence:
+  #     - "src_001"
+  #   metrics_used: []
+  #   assumptions: []
+  #   confidence: "high | medium | low"
+  #   status: "draft | checked | locked | rejected"
+  #   used_in_report: false
+  #   notes: ""

@@ -1,0 +1,16 @@
+review:
+  status: "draft"
+  reviewed_at: ""
+  reviewer: ""
+  outcome: "approved | revise | blocked | human-override | draft"
+checks: []
+  # - gate_id: "claim-traceability"
+  #   result: "pass | fail | partial | not_applicable"
+  #   severity: "critical | high | medium | low"
+  #   notes: ""
+  #   blocking: false
+open_issues: []
+  # - id: "issue_001"
+  #   description: ""
+  #   owner: ""
+  #   status: "open | resolved | accepted_risk"

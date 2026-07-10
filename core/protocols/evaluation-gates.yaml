@@ -1,0 +1,34 @@
+schema_version: "0.1"
+protocol_id: "meridian-evaluation-gates"
+name: "Meridian Evaluation Gates"
+purpose: "Define generic quality gates that domain packs can extend."
+gates:
+  - id: "definition-consistency"
+    phase: "analyze"
+    question: "Are all metrics, segments, time windows, and filters consistent with the contract?"
+    blocks_on_failure: true
+  - id: "claim-traceability"
+    phase: "synthesize"
+    question: "Can each important claim be traced to source evidence or an explicit assumption?"
+    blocks_on_failure: true
+  - id: "logic-validity"
+    phase: "evaluate"
+    question: "Does the recommendation follow from the evidence, scoring, and constraints?"
+    blocks_on_failure: true
+  - id: "risk-disclosure"
+    phase: "evaluate"
+    question: "Are uncertainty, missing data, and major risks visible near the recommendation?"
+    blocks_on_failure: false
+  - id: "decision-usefulness"
+    phase: "publish"
+    question: "Does the output tell the user what to decide or test next?"
+    blocks_on_failure: true
+  - id: "asset-extraction"
+    phase: "extract"
+    question: "Did the run produce reusable assets or failure modes worth saving?"
+    blocks_on_failure: false
+outcomes:
+  - "approved"
+  - "revise"
+  - "blocked"
+  - "human-override"

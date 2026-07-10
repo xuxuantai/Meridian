@@ -1,0 +1,38 @@
+schema_version: "0.1"
+protocol_id: "meridian-domain-pack"
+name: "Meridian Domain Pack Protocol"
+purpose: "Define how a vertical analysis domain extends Meridian Core."
+required_files:
+  - "meridian.domain.yaml"
+recommended_directories:
+  - "skills/"
+  - "metrics/"
+  - "knowledge/"
+  - "templates/"
+  - "evaluation/"
+  - "projects/"
+  - "cases/"
+manifest_fields:
+  - name: "domain_id"
+    required: true
+    description: "Stable domain identifier."
+  - name: "decision_scope"
+    required: true
+    description: "Decision questions this domain pack is designed to answer."
+  - name: "core_protocols"
+    required: true
+    description: "Meridian core protocols the domain pack depends on."
+  - name: "assets"
+    required: true
+    description: "Domain skills, metrics, templates, evaluation rules, and knowledge folders."
+  - name: "quality_gates"
+    required: true
+    description: "Core and domain-specific checks required before publication."
+  - name: "extraction_targets"
+    required: true
+    description: "Reusable assets to extract after each run."
+extension_rules:
+  - "A domain pack may add metrics, templates, and evaluation rules."
+  - "A domain pack should not redefine core lifecycle phases unless the override is documented."
+  - "A domain pack should preserve claim-to-evidence traceability."
+  - "A domain pack should record human review feedback as an input to future assets."

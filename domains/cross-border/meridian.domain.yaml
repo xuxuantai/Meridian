@@ -1,0 +1,47 @@
+schema_version: "0.1"
+domain_id: "cross-border"
+name: "Cross-border Market Opportunity"
+description: "Domain pack for country x product x industry cluster export opportunity analysis."
+decision_scope:
+  primary_questions:
+    - "Which target market should this company test next?"
+    - "Why is this market more attractive than alternatives?"
+    - "What product, channel, and validation step should be tested first?"
+  users:
+    - "factory"
+    - "export company"
+    - "industrial park"
+    - "cross-border service provider"
+core_protocols:
+  lifecycle: "../../core/protocols/harness-lifecycle.yaml"
+  artifacts: "../../core/protocols/artifacts.yaml"
+  evaluation_gates: "../../core/protocols/evaluation-gates.yaml"
+assets:
+  skills:
+    - "skills/market-opportunity-analysis.yaml"
+  metrics:
+    - "metrics/market-opportunity-score.yaml"
+  templates:
+    - "templates/analysis-task.yaml"
+    - "templates/report-outline.md"
+  evaluation:
+    - "evaluation/source-and-logic-review.yaml"
+  knowledge:
+    - "knowledge/"
+quality_gates:
+  inherits:
+    - "definition-consistency"
+    - "claim-traceability"
+    - "logic-validity"
+    - "risk-disclosure"
+    - "decision-usefulness"
+  domain_specific:
+    - "Demand, supply fit, competition, and entry difficulty must use separate evidence."
+    - "Market recommendations must include a testable next action."
+    - "HS code assumptions must be stated when trade data is used."
+extraction_targets:
+  - "new or improved market opportunity metrics"
+  - "country/product/industry cluster knowledge notes"
+  - "source reliability notes"
+  - "repeatable report sections"
+  - "failure modes from human review"

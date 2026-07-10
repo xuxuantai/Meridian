@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Analysis Workbench — 一致性校验脚本
+Meridian — 一致性校验脚本
 
 用法:
     python verify_consistency.py <analysis_dir>
@@ -10,18 +10,18 @@ Analysis Workbench — 一致性校验脚本
     2. state.yaml 中结论的依赖链是否有环
     3. state.yaml 中结论引用的 metrics 是否在 contract.yaml 中存在
     4. changelog.md 是否存在
+    5. claims.yaml 中已检查或锁定的 claim 是否有 evidence 或 assumptions
 """
 
 import sys
 import os
 import yaml
-import re
 from collections import defaultdict
 
 
 def load_yaml(path):
     with open(path, 'r', encoding='utf-8') as f:
-        return yaml.safe_load(f)
+        return yaml.safe_load(f) or {}
 
 
 def check_metric_references(contract, state):
@@ -40,6 +40,10 @@ def check_metric_references(contract, state):
                 )
     
     return issues
+
+
+def collect_contract_metric_ids(contract):
+    return {m['id'] for m in contract.get('metrics', []) or [] if 'id' in m}
 
 
 def check_dependency_chain(state):
@@ -115,6 +119,29 @@ def check_contract_completeness(contract):
     return issues
 
 
+def check_claim_ledger(claims_doc, contract):
+    """检查 claim ledger 中已确认 claim 的 evidence 和指标引用"""
+    issues = []
+    contract_metric_ids = collect_contract_metric_ids(contract)
+
+    for claim in claims_doc.get('claims', []) or []:
+        claim_id = claim.get('id', '<missing-id>')
+        status = claim.get('status', 'draft')
+        if status in {'checked', 'locked'}:
+            has_evidence = bool(claim.get('evidence'))
+            has_assumption = bool(claim.get('assumptions'))
+            if not has_evidence and not has_assumption:
+                issues.append(f"claim {claim_id} 已 {status} 但缺少 evidence 或 assumptions")
+            if not claim.get('statement'):
+                issues.append(f"claim {claim_id} 缺少 statement")
+
+        for mid in claim.get('metrics_used', []) or []:
+            if contract_metric_ids and mid not in contract_metric_ids:
+                issues.append(f"claim {claim_id} 引用了未在 contract 中定义的指标 '{mid}'")
+
+    return issues
+
+
 def check_changelog_exists(analysis_dir):
     """检查 changelog 是否存在"""
     changelog_path = os.path.join(analysis_dir, 'changelog.md')
@@ -137,6 +164,7 @@ def main():
     
     contract_path = os.path.join(analysis_dir, 'contract.yaml')
     state_path = os.path.join(analysis_dir, 'state.yaml')
+    claims_path = os.path.join(analysis_dir, 'claims.yaml')
     
     all_issues = []
     
@@ -166,10 +194,18 @@ def main():
         
         if contract:
             all_issues.extend(check_metric_references(contract, state))
+
+    if os.path.exists(claims_path):
+        claims_doc = load_yaml(claims_path)
+        all_issues.extend(check_claim_ledger(claims_doc, contract or {}))
     
     # Output results
-    phase = contract.get('meta', {}).get('phase', 'unknown') if contract else 'unknown'
-    print(f"=== Analysis Workbench 一致性校验 ===")
+    phase = (
+        contract.get('meta', {}).get('lifecycle_phase')
+        or contract.get('meta', {}).get('phase', 'unknown')
+        if contract else 'unknown'
+    )
+    print(f"=== Meridian 一致性校验 ===")
     print(f"分析阶段: {phase}")
     print(f"检查时间: {__import__('datetime').datetime.now().isoformat()}")
     print()

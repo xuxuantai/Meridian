@@ -1,0 +1,53 @@
+schema_version: "0.1"
+protocol_id: "meridian-harness-lifecycle"
+name: "Meridian Harness Lifecycle"
+purpose: "Define the domain-neutral lifecycle that every Meridian analysis run follows."
+phases:
+  - id: "intake"
+    objective: "Capture the user's decision question, context, constraints, and expected output."
+    required_artifacts:
+      - "analysis brief"
+    exit_gate: "The decision question is specific enough to plan."
+  - id: "contract"
+    objective: "Lock definitions, metrics, assumptions, constraints, and decision criteria."
+    required_artifacts:
+      - "analysis contract"
+      - "analysis state"
+    exit_gate: "Core definitions are explicit and user-confirmed or marked provisional."
+  - id: "plan"
+    objective: "Break the analysis into research and reasoning steps."
+    required_artifacts:
+      - "analysis plan"
+    exit_gate: "Each planned step has an output and evidence expectation."
+  - id: "retrieve"
+    objective: "Collect data, sources, documents, and observations."
+    required_artifacts:
+      - "source log"
+      - "data snapshot"
+    exit_gate: "Sources are logged and linked to planned questions."
+  - id: "analyze"
+    objective: "Turn evidence into intermediate findings while preserving traceability."
+    required_artifacts:
+      - "claim ledger"
+      - "evidence table"
+    exit_gate: "Claims cite evidence and do not violate locked definitions."
+  - id: "synthesize"
+    objective: "Combine findings into decision options, tradeoffs, and recommendations."
+    required_artifacts:
+      - "recommendation memo"
+    exit_gate: "Recommendation follows from claims, metrics, assumptions, and risks."
+  - id: "evaluate"
+    objective: "Run quality gates before publishing or sending the analysis."
+    required_artifacts:
+      - "review result"
+    exit_gate: "Critical checks pass or are explicitly escalated."
+  - id: "publish"
+    objective: "Prepare the final user-facing report or decision artifact."
+    required_artifacts:
+      - "final report"
+    exit_gate: "The final artifact is traceable to the review-approved claims."
+  - id: "extract"
+    objective: "Extract reusable assets from the run back into the domain pack."
+    required_artifacts:
+      - "asset extraction record"
+    exit_gate: "Reusable methods, metrics, examples, and failures are captured."

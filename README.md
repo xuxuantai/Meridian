@@ -1,103 +1,120 @@
 # Meridian
 
-Meridian 是一套让 AI Agent 做专业商业/数据分析时更严谨、更可追溯、可复用的 Analysis Harness。
+Meridian is an analysis harness for AI agents doing professional business and
+data analysis.
 
-它不是单一分析模板，也不是某个垂直行业工具。Meridian 的核心目标是把专业分析师在多轮分析中的关键能力结构化：
+The project is not a collection of prompts. Prompts are only adapters. The core
+asset is a reusable analysis protocol: how an agent defines a decision question,
+locks metric definitions, records evidence, manages claims, evaluates logic, and
+turns each completed analysis into reusable domain knowledge.
 
-- 指标口径保持一致
-- 结论前后不矛盾
-- 分析过程可追溯
-- 数据、假设、判断和建议可复核
-- 领域分析方法可以沉淀为可复用资产
+## Why Meridian Exists
 
-## 架构
+General-purpose agents can search, read files, run code, and write reports. The
+hard part in professional analysis is making the work reliable:
+
+- metric definitions drift during long conversations
+- conclusions contradict earlier claims
+- evidence is hard to trace
+- assumptions disappear into prose
+- domain methods are not extracted after each project
+
+Meridian turns those fragile steps into explicit files, lifecycle phases,
+quality gates, and domain packs.
+
+## Architecture
 
 ```text
 Meridian
-├── core/                         # 通用分析 Harness
-│   ├── templates/                # 分析契约与状态模板
-│   └── evaluation/               # 一致性校验工具
-├── skills/                       # Agent 指令层
-│   └── meridian-analysis-harness/
-└── domains/                      # 垂直领域分析包
-    └── cross-border/
+├── core/                       # Harness protocol, templates, and verification
+│   ├── protocols/              # Lifecycle, artifact, evaluation, and pack specs
+│   ├── templates/              # Reusable state/contract templates
+│   └── evaluation/             # Local verification utilities
+├── adapters/                   # Tool-specific prompt or runtime adapters
+│   └── agent-skills/
+├── domains/                    # Vertical analysis packs
+│   └── cross-border/
+└── docs/                       # Architecture and roadmap
 ```
 
-## 核心关系
+## Mental Model
 
 ```text
-Meridian = 专业分析 Harness
-
-core = 分析协议、状态管理、校验机制
-skills = 让通用 Agent 遵守 Meridian 工作流的指令层
-domains = 在具体商业场景中复用 Meridian 的领域资产包
+Agent Runtime
+  Codex / Claude Code / OpenCode / OpenHands
+        |
+Adapter
+  SKILL.md, system prompt, tool rule, local runtime wrapper
+        |
+Meridian Core
+  lifecycle + artifacts + state + gates + verification
+        |
+Domain Pack
+  methods + metrics + knowledge + templates + evaluations
+        |
+Analysis Run
+  one concrete business question, traceable from input to recommendation
 ```
 
-## Core Harness
+## Core
 
-`core/` 是 Meridian 的通用底座，沉淀跨场景复用的分析协议。
+`core/` defines the generic harness that every domain pack should reuse.
 
-当前包括：
+Current core assets:
 
+- `core/protocols/harness-lifecycle.yaml`
+- `core/protocols/artifacts.yaml`
+- `core/protocols/evaluation-gates.yaml`
+- `core/protocols/domain-pack.yaml`
 - `core/templates/analysis-contract.yaml`
 - `core/templates/analysis-state.yaml`
 - `core/evaluation/verify_consistency.py`
 
-它解决多轮 AI 辅助分析中的三个核心问题：
-
-- **指标口径漂移**：对话推进中指标定义被遗忘或篡改
-- **结论前后矛盾**：新结论与早期结论冲突且无法自查
-- **过程不可追溯**：分析路径冗长，决策链路丢失
-
-核心机制是"分析契约"：
+The core lifecycle is:
 
 ```text
-分析需求
-  -> contract.yaml 锁定指标、约束和业务规则
-  -> state.yaml 记录阶段、结论和决策日志
-  -> 每一步分析前读取约束
-  -> 每一步分析后校验一致性
-  -> 最终报告可追溯到锁定结论和数据证据
+intake
+  -> contract
+  -> plan
+  -> retrieve
+  -> analyze
+  -> synthesize
+  -> evaluate
+  -> publish
+  -> extract
 ```
 
-## Agent Skill
+## Adapters
 
-`skills/meridian-analysis-harness/` 是 Meridian 的通用 Agent 指令层。
+`adapters/` contains prompt and tool-specific wrappers. These are intentionally
+not treated as the product itself.
 
-它可以复制到不同 AI 工具的指令目录中：
+The first adapter is:
 
-| 工具 | 放置路径 |
-|------|---------|
-| QoderWork | `~/.qoderwork/skills/<skill-name>/SKILL.md` |
-| Cursor | 项目根目录 `.cursor/rules/` |
-| Claude Code | 项目根目录 `CLAUDE.md` |
-| GitHub Copilot | `.github/copilot-instructions.md` |
-| 通用 | 直接作为 system prompt 或上下文文件提供给 Agent |
+- `adapters/agent-skills/meridian-analysis-harness/SKILL.md`
 
-使用方式：
+It tells a general-purpose agent how to follow Meridian's lifecycle and state
+protocol.
 
-```bash
-cp -R skills/meridian-analysis-harness ~/.qoderwork/skills/
-```
+## Domain Packs
 
-## Domain Pack: Cross-border
+`domains/` contains vertical packs that reuse the core harness in a specific
+analysis field.
 
-`domains/cross-border/` 是 Meridian 的第一个垂直领域包。
+The first pack is:
 
-它面向企业出海市场机会分析，聚焦：
+- `domains/cross-border/`
 
-> 国家 x 产品 x 产业带 出海机会分析
+It focuses on:
 
-它不重新开发通用 Agent，而是在 Meridian Harness 之上沉淀专业分析资产：
+> country x product x industry cluster export opportunity analysis
 
-- Analysis Skill
-- Domain Knowledge
-- Metrics
-- Evaluation
-- Report Templates
-- Analysis Workspace CLI
+Each domain pack should include a `meridian.domain.yaml` manifest that declares
+its decision scope, assets, metrics, evaluation rules, and extraction targets.
 
-使用方式：
+## Quick Start
+
+Run the cross-border domain pack:
 
 ```bash
 cd domains/cross-border
@@ -105,52 +122,24 @@ PYTHONPATH=src python3 -m cbi.cli list
 PYTHONPATH=src python3 -m cbi.cli validate templates/analysis-task.yaml --kind task
 ```
 
-创建一份新的跨境分析任务：
-
-```bash
-PYTHONPATH=src python3 -m cbi.cli new-task \
-  --product "outdoor lighting" \
-  --supply-chain "Guangdong" \
-  --markets "Saudi Arabia,Poland,Mexico" \
-  --title "Outdoor lighting export opportunity scan"
-```
-
-## Consistency Check
-
-`verify_consistency.py` 可作为独立的一致性校验工具运行：
+Run the generic consistency checker:
 
 ```bash
 pip install pyyaml
 python core/evaluation/verify_consistency.py .analysis/
 ```
 
-## Project Structure
+## Roadmap
 
-```text
-Meridian/
-├── core/
-│   ├── templates/
-│   │   ├── analysis-contract.yaml
-│   │   └── analysis-state.yaml
-│   └── evaluation/
-│       └── verify_consistency.py
-├── skills/
-│   └── meridian-analysis-harness/
-│       └── SKILL.md
-├── domains/
-│   └── cross-border/
-│       ├── docs/
-│       ├── projects/
-│       ├── knowledge/
-│       ├── skills/
-│       ├── metrics/
-│       ├── evaluation/
-│       ├── templates/
-│       ├── schemas/
-│       └── src/cbi/
-├── LICENSE
-└── README.md
-```
+Meridian should evolve in this order:
+
+1. **Protocol first**: stabilize lifecycle, artifact, and evaluation contracts.
+2. **Adapter second**: make Codex, Claude Code, OpenCode, and other agents obey the same protocol.
+3. **Domain packs third**: add vertical methods such as cross-border, industry research, investment analysis, and strategy.
+4. **Evaluation loop fourth**: compare agent outputs against human review and historical cases.
+5. **Workbench last**: build UI only after the protocol and repeated workflows are clear.
+
+See `docs/architecture.md` and `docs/evolution-roadmap.md` for the fuller design.
 
 ## License
 

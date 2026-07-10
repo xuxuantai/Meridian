@@ -1,10 +1,18 @@
+schema_version: "0.2"
 meta:
   id: ""
   title: ""
   created: ""
   updated: ""
-  phase: "contract"
+  lifecycle_phase: "contract"
+  domain_pack: ""
   locked: false
+decision:
+  question: ""
+  user_context: ""
+  target_output: ""
+  deadline: ""
+  success_criteria: []
 
 metrics: []
   # 示例:
@@ -33,5 +41,16 @@ business_rules: []
   #   description: "营收口径"
   #   rule: "以财务系统确认的已回款金额为准，不含应收账款"
   #   locked: false
+
+assumptions: []
+  # - id: "asm_xxx"
+  #   statement: ""
+  #   confidence: "high | medium | low"
+  #   locked: false
+
+quality_gates: []
+  # - "definition-consistency"
+  # - "claim-traceability"
+  # - "logic-validity"
 
 conclusions: []

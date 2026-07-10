@@ -1,0 +1,11 @@
+sources: []
+  # - id: "src_001"
+  #   title: "Source title or dataset name"
+  #   source_type: "dataset | webpage | document | interview | internal_file"
+  #   url: ""
+  #   file_ref: ""
+  #   retrieved_at: ""
+  #   reliability: "high | medium | low | unknown"
+  #   reliability_notes: ""
+  #   supports_claims: []
+  #   limitations: []

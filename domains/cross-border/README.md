@@ -27,6 +27,7 @@ The first validation domain is cross-border market opportunity analysis:
 
 ```text
 domains/cross-border/
+  meridian.domain.yaml  Domain manifest and dependency declaration
   docs/                  Project brief and operating notes
   projects/              One folder per analysis engagement
   knowledge/             Domain knowledge, taxonomy, HS code maps, cases

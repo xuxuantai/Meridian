@@ -1,0 +1,45 @@
+schema_version: "0.1"
+protocol_id: "meridian-artifacts"
+name: "Meridian Artifact Contract"
+purpose: "Define durable analysis artifacts that make an agent run inspectable and reusable."
+artifacts:
+  - id: "analysis-contract"
+    path: ".analysis/contract.yaml"
+    role: "Locks definitions, metrics, assumptions, constraints, and business rules."
+    mutable_until_phase: "contract"
+    required: true
+  - id: "analysis-state"
+    path: ".analysis/state.yaml"
+    role: "Tracks current phase, decisions, conclusions, snapshots, and lock status."
+    mutable_until_phase: "completed"
+    required: true
+  - id: "source-log"
+    path: ".analysis/sources.yaml"
+    role: "Records data sources, documents, retrieval dates, and reliability notes."
+    mutable_until_phase: "publish"
+    required: true
+  - id: "claim-ledger"
+    path: ".analysis/claims.yaml"
+    role: "Maps claims to evidence, assumptions, confidence, and downstream report usage."
+    mutable_until_phase: "publish"
+    required: true
+  - id: "review-result"
+    path: ".analysis/review.yaml"
+    role: "Records quality gate outcomes, reviewer notes, and blocking issues."
+    mutable_until_phase: "completed"
+    required: true
+  - id: "final-report"
+    path: ".analysis/report/"
+    role: "Stores the final user-facing report and supporting exports."
+    mutable_until_phase: "completed"
+    required: true
+  - id: "asset-extraction"
+    path: ".analysis/extracted-assets.yaml"
+    role: "Captures reusable methods, metrics, templates, knowledge, and failure modes."
+    mutable_until_phase: "completed"
+    required: false
+invariants:
+  - "Every final report claim should map to a claim ledger entry."
+  - "Every locked claim should cite at least one evidence item or explicit assumption."
+  - "Every metric used in a claim should exist in the analysis contract or a domain metric asset."
+  - "Every critical evaluation failure should block publication unless a human override is recorded."
