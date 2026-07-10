@@ -1,46 +1,70 @@
 # Meridian
 
-面向数据分析师、商业分析师和 AI Agent 的工具与方法论集合。目标是让日常分析工作（SQL 取数、指标计算、趋势归因、研报撰写）和专业商业决策分析更严谨、更可追溯、更可复用。
+Meridian 是一套让 AI Agent 做专业商业/数据分析时更严谨、更可追溯、可复用的 Analysis Harness。
 
-## 内容
+它不是单一分析模板，也不是某个垂直行业工具。Meridian 的核心目标是把专业分析师在多轮分析中的关键能力结构化：
 
-### analysis-workbench — 数据分析一致性工作台
+- 指标口径保持一致
+- 结论前后不矛盾
+- 分析过程可追溯
+- 数据、假设、判断和建议可复核
+- 领域分析方法可以沉淀为可复用资产
 
-解决多轮 AI 辅助分析中的三个核心问题：
+## 架构
 
-- **指标口径漂移** — 对话推进中指标定义被遗忘或篡改
-- **结论前后矛盾** — 新结论与早期结论冲突且无法自查
-- **过程不可追溯** — 分析路径冗长，决策链路丢失
+```text
+Meridian
+├── core/                         # 通用分析 Harness
+│   ├── templates/                # 分析契约与状态模板
+│   └── evaluation/               # 一致性校验工具
+├── skills/                       # Agent 指令层
+│   └── meridian-analysis-harness/
+└── domains/                      # 垂直领域分析包
+    └── cross-border/
+```
 
-通过"分析契约"（Analysis Contract）机制，将指标定义、取数约束、业务规则结构化存储在外部状态文件中，Agent 每步操作前强制读取、操作后强制校验，保持分析过程的一致性和可控性。
+## 核心关系
 
-### cross-border-intelligence — 跨境决策智能引擎
+```text
+Meridian = 专业分析 Harness
 
-面向企业出海市场机会分析的 Decision Intelligence 项目骨架。
+core = 分析协议、状态管理、校验机制
+skills = 让通用 Agent 遵守 Meridian 工作流的指令层
+domains = 在具体商业场景中复用 Meridian 的领域资产包
+```
 
-它不重新开发通用 Agent，而是沉淀通用 Agent 之上的专业分析资产：
+## Core Harness
 
-- Analysis Skill
-- Domain Knowledge
-- Metrics
-- Evaluation
-- Report Templates
-- Analysis Workspace CLI
+`core/` 是 Meridian 的通用底座，沉淀跨场景复用的分析协议。
 
-第一阶段聚焦：
+当前包括：
 
-> 国家 x 产品 x 产业带 出海机会分析
+- `core/templates/analysis-contract.yaml`
+- `core/templates/analysis-state.yaml`
+- `core/evaluation/verify_consistency.py`
 
-目标是用通用 Agent + Analysis Harness 复制优秀商业分析师的工作方式，并通过公开内容、定制报告和企业反馈逐步形成可商业化的 AI 决策产品。
+它解决多轮 AI 辅助分析中的三个核心问题：
 
-## 使用方式
+- **指标口径漂移**：对话推进中指标定义被遗忘或篡改
+- **结论前后矛盾**：新结论与早期结论冲突且无法自查
+- **过程不可追溯**：分析路径冗长，决策链路丢失
 
-本项目包含两类资产：
+核心机制是"分析契约"：
 
-1. 可直接安装到 AI 工具中的 `SKILL.md` 指令资产。
-2. 可作为独立项目运行的分析工作区、schema、模板和 CLI。
+```text
+分析需求
+  -> contract.yaml 锁定指标、约束和业务规则
+  -> state.yaml 记录阶段、结论和决策日志
+  -> 每一步分析前读取约束
+  -> 每一步分析后校验一致性
+  -> 最终报告可追溯到锁定结论和数据证据
+```
 
-### 使用 analysis-workbench
+## Agent Skill
+
+`skills/meridian-analysis-harness/` 是 Meridian 的通用 Agent 指令层。
+
+它可以复制到不同 AI 工具的指令目录中：
 
 | 工具 | 放置路径 |
 |------|---------|
@@ -50,15 +74,33 @@
 | GitHub Copilot | `.github/copilot-instructions.md` |
 | 通用 | 直接作为 system prompt 或上下文文件提供给 Agent |
 
-### 快速开始
-
-1. 将 `skill/analysis-workbench/` 复制到你的 AI 工具对应的指令目录
-2. 开始数据分析对话，Agent 会按照五阶段流程（对齐→取数→分析→报告→验证）执行
-
-### 使用 cross-border-intelligence
+使用方式：
 
 ```bash
-cd projects/cross-border-intelligence
+cp -R skills/meridian-analysis-harness ~/.qoderwork/skills/
+```
+
+## Domain Pack: Cross-border
+
+`domains/cross-border/` 是 Meridian 的第一个垂直领域包。
+
+它面向企业出海市场机会分析，聚焦：
+
+> 国家 x 产品 x 产业带 出海机会分析
+
+它不重新开发通用 Agent，而是在 Meridian Harness 之上沉淀专业分析资产：
+
+- Analysis Skill
+- Domain Knowledge
+- Metrics
+- Evaluation
+- Report Templates
+- Analysis Workspace CLI
+
+使用方式：
+
+```bash
+cd domains/cross-border
 PYTHONPATH=src python3 -m cbi.cli list
 PYTHONPATH=src python3 -m cbi.cli validate templates/analysis-task.yaml --kind task
 ```
@@ -73,35 +115,39 @@ PYTHONPATH=src python3 -m cbi.cli new-task \
   --title "Outdoor lighting export opportunity scan"
 ```
 
-### 独立校验脚本
+## Consistency Check
 
 `verify_consistency.py` 可作为独立的一致性校验工具运行：
 
 ```bash
 pip install pyyaml
-python skill/analysis-workbench/scripts/verify_consistency.py .analysis/
+python core/evaluation/verify_consistency.py .analysis/
 ```
 
-## 项目结构
+## Project Structure
 
-```
+```text
 Meridian/
-├── skill/
-│   └── analysis-workbench/      # 数据分析一致性工作台
-│       ├── SKILL.md             # Agent 指令文档（核心）
-│       ├── templates/           # 契约与状态模板
-│       └── scripts/             # 一致性校验脚本
-├── projects/
-│   └── cross-border-intelligence/
-│       ├── docs/                # 项目总纲与操作说明
-│       ├── projects/            # 单次跨境分析任务
-│       ├── knowledge/           # 领域知识资产
-│       ├── skills/              # 结构化分析技能
-│       ├── metrics/             # 指标定义与评分逻辑
-│       ├── evaluation/          # 结果评估与质量门禁
-│       ├── templates/           # 任务与报告模板
-│       ├── schemas/             # YAML schema
-│       └── src/cbi/             # Analysis Workspace CLI
+├── core/
+│   ├── templates/
+│   │   ├── analysis-contract.yaml
+│   │   └── analysis-state.yaml
+│   └── evaluation/
+│       └── verify_consistency.py
+├── skills/
+│   └── meridian-analysis-harness/
+│       └── SKILL.md
+├── domains/
+│   └── cross-border/
+│       ├── docs/
+│       ├── projects/
+│       ├── knowledge/
+│       ├── skills/
+│       ├── metrics/
+│       ├── evaluation/
+│       ├── templates/
+│       ├── schemas/
+│       └── src/cbi/
 ├── LICENSE
 └── README.md
 ```

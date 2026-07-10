@@ -6,6 +6,6 @@ __pycache__/
 dist/
 build/
 *.egg-info/
-projects/cross-border-intelligence/projects/*/raw/
-projects/cross-border-intelligence/projects/*/private/
-projects/cross-border-intelligence/outputs/
+domains/cross-border/projects/*/raw/
+domains/cross-border/projects/*/private/
+domains/cross-border/outputs/

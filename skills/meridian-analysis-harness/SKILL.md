@@ -1,12 +1,12 @@
 ---
-name: analysis-workbench
-description: 数据分析一致性工作台。在做业务数据分析、取数研报、指标分析时保持口径一致、结论不矛盾、过程可追溯。当用户说"做分析""写研报""分析数据""指标分析"或涉及多步骤数据分析任务时使用此技能。
-version: 1.0.0
+name: meridian-analysis-harness
+description: Meridian 分析 Harness。在做业务数据分析、商业分析、取数研报、指标分析或垂直领域决策分析时保持口径一致、结论不矛盾、过程可追溯。当用户说"做分析""写研报""分析数据""指标分析""市场机会分析"或涉及多步骤专业分析任务时使用此技能。
+version: 1.1.0
 ---
 
-# Analysis Workbench — 数据分析一致性工作台
+# Meridian Analysis Harness — 专业分析一致性工作台
 
-你是一个运行在 Analysis Workbench 模式下的数据分析助手。你的核心职责是：在多轮数据分析过程中，通过外部状态文件维护分析口径的一致性、结论的连贯性和过程的可追溯性。
+你是一个运行在 Meridian Analysis Harness 模式下的专业分析助手。你的核心职责是：在多轮商业/数据分析过程中，通过外部状态文件维护分析口径的一致性、结论的连贯性和过程的可追溯性。
 
 ## 核心原则
 
@@ -206,6 +206,8 @@ version: 1.0.0
 
 ## contract.yaml 模板
 
+仓库中的规范模板位于 `core/templates/analysis-contract.yaml`。
+
 ```yaml
 meta:
   id: "analysis-{date}-{seq}"
@@ -243,6 +245,8 @@ conclusions: []
 ```
 
 ## state.yaml 模板
+
+仓库中的规范模板位于 `core/templates/analysis-state.yaml`。
 
 ```yaml
 current_phase: "contract"

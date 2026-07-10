@@ -1,9 +1,10 @@
-# Cross-border Decision Intelligence Engine
+# Cross-border Domain Pack
 
-AI-assisted decision intelligence for cross-border market opportunity analysis.
+AI-assisted decision intelligence domain pack for cross-border market opportunity analysis.
 
-This module is not a general agent implementation. It is the asset layer that
-turns a general-purpose coding or research agent into a repeatable business
+This domain pack runs on top of the Meridian Analysis Harness. It is not a
+general agent implementation. It is the vertical asset layer that turns a
+general-purpose coding or research agent into a repeatable cross-border business
 analysis workspace.
 
 ## Product Thesis
@@ -22,10 +23,10 @@ The first validation domain is cross-border market opportunity analysis:
 
 > country x product x industry cluster export opportunity analysis
 
-## Module Layout
+## Domain Pack Layout
 
 ```text
-projects/cross-border-intelligence/
+domains/cross-border/
   docs/                  Project brief and operating notes
   projects/              One folder per analysis engagement
   knowledge/             Domain knowledge, taxonomy, HS code maps, cases
@@ -58,7 +59,7 @@ User thesis
 From the Meridian repository root:
 
 ```bash
-cd projects/cross-border-intelligence
+cd domains/cross-border
 ```
 
 Then run:
