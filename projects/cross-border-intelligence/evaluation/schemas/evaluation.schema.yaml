@@ -1,0 +1,56 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: "Evaluation asset"
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - evaluation_id
+  - name
+  - scope
+  - checks
+  - outcome_levels
+properties:
+  schema_version:
+    type: string
+  evaluation_id:
+    type: string
+  name:
+    type: string
+  scope:
+    type: string
+  checks:
+    type: array
+    items:
+      type: object
+      required:
+        - check_id
+        - dimension
+        - question
+        - method
+        - pass_condition
+        - severity
+      properties:
+        check_id:
+          type: string
+        dimension:
+          type: string
+        question:
+          type: string
+        method:
+          type: string
+        pass_condition:
+          type: string
+        severity:
+          type: string
+  outcome_levels:
+    type: array
+    items:
+      type: object
+      required:
+        - label
+        - definition
+      properties:
+        label:
+          type: string
+        definition:
+          type: string

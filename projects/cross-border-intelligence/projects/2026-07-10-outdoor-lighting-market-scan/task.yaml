@@ -1,0 +1,80 @@
+schema_version: '0.1'
+task_id: task-2026-07-10-outdoor-lighting-market-scan
+title: Outdoor lighting export opportunity scan
+decision_question: Which target market should this company test next, and what should
+  the first test look like?
+subject:
+  product: outdoor lighting
+  supply_chain: Guangdong
+  target_markets:
+  - Saudi Arabia
+  - Poland
+  - Mexico
+  industry_cluster: lighting manufacturing cluster
+  hs_codes:
+  - '9405'
+business_context:
+  user_type: factory or export company
+  objective: Find export markets worth testing in the next 3-6 months.
+  constraints:
+  - Use public data unless the project folder provides private data.
+  - Prioritize actionable market entry recommendations over broad macro description.
+research_plan:
+- step: define-market
+  objective: Clarify product scope, target buyers, use cases, and comparable HS codes.
+  expected_outputs:
+  - product scope note
+  - HS code assumptions
+- step: demand-signal-scan
+  objective: Estimate demand growth and import momentum for each target market.
+  expected_outputs:
+  - demand evidence table
+  - growth hypothesis
+- step: supply-fit-analysis
+  objective: Assess whether the supply chain has an export advantage for each market.
+  expected_outputs:
+  - supply fit notes
+  - China export advantage score
+- step: competition-and-channel
+  objective: Assess competitor density, channel access, and price pressure.
+  expected_outputs:
+  - competition notes
+  - channel assumptions
+- step: recommendation
+  objective: Rank target markets and define the first product/channel test.
+  expected_outputs:
+  - market ranking
+  - test recommendation
+data_sources:
+- source_type: trade data
+  examples:
+  - UN Comtrade
+  - national customs statistics
+  purpose: Validate import/export momentum and origin-country structure.
+  required: true
+- source_type: search and demand trend
+  examples:
+  - Google Trends
+  - marketplace search trend pages
+  purpose: Identify buyer interest and seasonality.
+  required: false
+- source_type: marketplace and channel data
+  examples:
+  - Amazon
+  - regional ecommerce platforms
+  - B2B marketplaces
+  purpose: Estimate competition, pricing, positioning, and channel fit.
+  required: false
+- source_type: policy and regulation
+  examples:
+  - tariff schedules
+  - product certification rules
+  purpose: Identify market entry friction.
+  required: true
+deliverables:
+- ranked market opportunity table
+- evidence-backed recommendation memo
+- first 90-day market test plan
+review:
+  evaluation_asset: evaluation/source-and-logic-review.yaml
+  human_review_required: true

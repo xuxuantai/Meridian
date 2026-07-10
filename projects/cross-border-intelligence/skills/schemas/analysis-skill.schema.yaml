@@ -1,0 +1,83 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: "Analysis skill"
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - skill_id
+  - name
+  - purpose
+  - decision_questions
+  - inputs
+  - workflow
+  - outputs
+  - evidence_requirements
+  - guardrails
+  - reusable_patterns
+properties:
+  schema_version:
+    type: string
+  skill_id:
+    type: string
+  name:
+    type: string
+  purpose:
+    type: string
+  decision_questions:
+    type: array
+    items:
+      type: string
+  inputs:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+        - description
+        - required
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        required:
+          type: boolean
+  workflow:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - name
+        - objective
+        - method
+        - outputs
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        objective:
+          type: string
+        method:
+          type: string
+        outputs:
+          type: array
+          items:
+            type: string
+  outputs:
+    type: array
+    items:
+      type: string
+  evidence_requirements:
+    type: array
+    items:
+      type: string
+  guardrails:
+    type: array
+    items:
+      type: string
+  reusable_patterns:
+    type: array
+    items:
+      type: string

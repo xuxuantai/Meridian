@@ -1,0 +1,54 @@
+schema_version: "0.1"
+metric_id: "market-opportunity-score"
+name: "Market Opportunity Score"
+description: "A composite score for comparing candidate export markets for a specific product and supply chain."
+decision_use: "Rank target markets and identify which market deserves the next validation test."
+components:
+  - name: "Demand Growth"
+    weight: 0.25
+    rationale: "Markets with rising demand deserve attention even if current volume is not the largest."
+    scoring_notes: "Use import growth, search trends, channel signals, and buyer activity."
+  - name: "China Export Advantage"
+    weight: 0.20
+    rationale: "The supply chain must have a realistic advantage in cost, capacity, quality, or speed."
+    scoring_notes: "Use origin-country share, cluster capability, product fit, and logistics route evidence."
+  - name: "Competition Level"
+    weight: 0.20
+    rationale: "Lower or fragmented competition improves the chance of a successful entry test."
+    scoring_notes: "Score higher when competition is manageable, not absent."
+  - name: "Margin Potential"
+    weight: 0.15
+    rationale: "Opportunity is weaker if the market is growing but structurally low margin."
+    scoring_notes: "Use price bands, shipping cost, channel margins, and certification cost assumptions."
+  - name: "Entry Difficulty"
+    weight: 0.20
+    rationale: "A near-term test must be feasible under policy, compliance, channel, and operational constraints."
+    scoring_notes: "Score higher when barriers are lower or manageable with clear actions."
+scoring:
+  scale: "1-5 per component, weighted to a 100-point total"
+  aggregation: "sum(component_score / 5 * component_weight * 100)"
+  thresholds:
+    - label: "strong"
+      range: "75-100"
+      meaning: "Worth a near-term market test if evidence quality is acceptable."
+    - label: "watchlist"
+      range: "55-74"
+      meaning: "Promising but needs more validation or a narrower product angle."
+    - label: "weak"
+      range: "0-54"
+      meaning: "Not recommended without a major strategic reason or new evidence."
+data_requirements:
+  - "Trade flow data for the product or a justified proxy category."
+  - "At least one demand-side signal beyond trade volume."
+  - "Supply chain fit evidence from origin cluster, export share, cost, capability, or logistics."
+  - "Competition and channel evidence."
+  - "Entry friction evidence such as certification, tariff, policy, or distributor barriers."
+interpretation:
+  - "The score supports comparison; it does not replace analyst judgment."
+  - "A lower-scoring market can still be chosen if it has a unique strategic fit."
+  - "Confidence should be reported separately from score."
+limitations:
+  - "Public data can lag actual market conditions."
+  - "HS code mappings may include unrelated products."
+  - "Marketplace signals can overrepresent online channels."
+  - "Weights should be adjusted after historical validation and customer feedback."

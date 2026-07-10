@@ -1,0 +1,81 @@
+schema_version: "0.1"
+skill_id: "market-opportunity-analysis"
+name: "Market Opportunity Analysis"
+purpose: "Rank target export markets and produce an actionable first-test recommendation."
+decision_questions:
+  - "Which country should this company test next?"
+  - "Why is this market more attractive than the alternatives?"
+  - "What product, channel, and validation step should be tested first?"
+inputs:
+  - name: "product"
+    description: "Product category, use case, and known HS code assumptions."
+    required: true
+  - name: "supply_chain"
+    description: "Relevant origin cluster, manufacturing advantage, cost base, and capabilities."
+    required: true
+  - name: "target_markets"
+    description: "Candidate countries or regions to compare."
+    required: true
+  - name: "business_constraints"
+    description: "Budget, channel preference, compliance limits, MOQ, lead time, and margin goals."
+    required: false
+workflow:
+  - id: "define-market"
+    name: "Define Market"
+    objective: "Clarify the product scope, comparable categories, buyer segments, and HS code assumptions."
+    method: "Create a short market definition note and list all assumptions that affect data collection."
+    outputs:
+      - "market definition note"
+      - "HS code assumption list"
+  - id: "identify-demand"
+    name: "Identify Demand"
+    objective: "Find evidence of current demand, growth, seasonality, and buyer intent."
+    method: "Compare trade import trends, search interest, marketplace signals, and public industry evidence."
+    outputs:
+      - "demand signal table"
+      - "growth hypothesis"
+  - id: "analyze-supply"
+    name: "Analyze Supply Advantage"
+    objective: "Assess whether the origin supply chain has a defensible advantage for the target market."
+    method: "Map China export strength, cluster capabilities, logistics fit, price band, and product differentiation."
+    outputs:
+      - "supply fit assessment"
+      - "export advantage score"
+  - id: "evaluate-competition"
+    name: "Evaluate Competition"
+    objective: "Estimate competitor density, price pressure, channel maturity, and incumbent advantage."
+    method: "Review marketplace listings, import origin mix, leading brands, distributor patterns, and local substitutes."
+    outputs:
+      - "competition assessment"
+      - "channel access notes"
+  - id: "score-opportunity"
+    name: "Score Opportunity"
+    objective: "Convert evidence into a comparable opportunity ranking."
+    method: "Apply the market opportunity score metric and explain every score with evidence."
+    outputs:
+      - "opportunity score table"
+      - "score rationale"
+  - id: "generate-recommendation"
+    name: "Generate Recommendation"
+    objective: "Produce a specific market-entry test recommendation."
+    method: "Select the strongest market, define first SKU or product angle, channel, price band, and validation plan."
+    outputs:
+      - "ranked recommendation"
+      - "90-day test plan"
+outputs:
+  - "market ranking"
+  - "evidence-backed recommendation memo"
+  - "90-day market test plan"
+evidence_requirements:
+  - "Every major claim must link to a source or be marked as an assumption."
+  - "Demand, supply, competition, and entry difficulty must use separate evidence."
+  - "If a data source is missing or stale, the report must state how confidence is affected."
+guardrails:
+  - "Do not recommend a market only because imports are large; growth, fit, and entry feasibility must be considered."
+  - "Do not hide uncertainty behind a numeric score."
+  - "Do not mix product scopes or HS codes without explaining the mapping."
+  - "Do not present raw data lookup as decision advice."
+reusable_patterns:
+  - "Start with one concrete company objective before broad market research."
+  - "Compare a small set of target markets first, then expand only if the ranking is inconclusive."
+  - "Turn every final recommendation into a testable next action."

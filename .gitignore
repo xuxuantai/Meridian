@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+projects/cross-border-intelligence/projects/*/raw/
+projects/cross-border-intelligence/projects/*/private/
+projects/cross-border-intelligence/outputs/

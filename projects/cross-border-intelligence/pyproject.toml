@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cross-border-intelligence"
+version = "0.1.0"
+description = "Analysis workspace for cross-border decision intelligence assets"
+requires-python = ">=3.9"
+dependencies = [
+  "PyYAML>=6.0"
+]
+
+[project.scripts]
+cbi = "cbi.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

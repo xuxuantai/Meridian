@@ -1,0 +1,81 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: "Decision metric"
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - metric_id
+  - name
+  - description
+  - decision_use
+  - components
+  - scoring
+  - data_requirements
+  - interpretation
+  - limitations
+properties:
+  schema_version:
+    type: string
+  metric_id:
+    type: string
+  name:
+    type: string
+  description:
+    type: string
+  decision_use:
+    type: string
+  components:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+        - weight
+        - rationale
+      properties:
+        name:
+          type: string
+        weight:
+          type: number
+        rationale:
+          type: string
+        scoring_notes:
+          type: string
+  scoring:
+    type: object
+    required:
+      - scale
+      - aggregation
+      - thresholds
+    properties:
+      scale:
+        type: string
+      aggregation:
+        type: string
+      thresholds:
+        type: array
+        items:
+          type: object
+          required:
+            - label
+            - range
+            - meaning
+          properties:
+            label:
+              type: string
+            range:
+              type: string
+            meaning:
+              type: string
+  data_requirements:
+    type: array
+    items:
+      type: string
+  interpretation:
+    type: array
+    items:
+      type: string
+  limitations:
+    type: array
+    items:
+      type: string

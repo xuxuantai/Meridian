@@ -1,0 +1,108 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: "Cross-border analysis task"
+type: object
+additionalProperties: false
+required:
+  - schema_version
+  - task_id
+  - title
+  - decision_question
+  - subject
+  - business_context
+  - research_plan
+  - data_sources
+  - deliverables
+  - review
+properties:
+  schema_version:
+    type: string
+  task_id:
+    type: string
+  title:
+    type: string
+  decision_question:
+    type: string
+  subject:
+    type: object
+    required:
+      - product
+      - supply_chain
+      - target_markets
+    properties:
+      product:
+        type: string
+      supply_chain:
+        type: string
+      target_markets:
+        type: array
+        items:
+          type: string
+      industry_cluster:
+        type: string
+      hs_codes:
+        type: array
+        items:
+          type: string
+  business_context:
+    type: object
+    required:
+      - user_type
+      - objective
+      - constraints
+    properties:
+      user_type:
+        type: string
+      objective:
+        type: string
+      constraints:
+        type: array
+        items:
+          type: string
+  research_plan:
+    type: array
+    items:
+      type: object
+      required:
+        - step
+        - objective
+      properties:
+        step:
+          type: string
+        objective:
+          type: string
+        expected_outputs:
+          type: array
+          items:
+            type: string
+  data_sources:
+    type: array
+    items:
+      type: object
+      required:
+        - source_type
+        - purpose
+      properties:
+        source_type:
+          type: string
+        examples:
+          type: array
+          items:
+            type: string
+        purpose:
+          type: string
+        required:
+          type: boolean
+  deliverables:
+    type: array
+    items:
+      type: string
+  review:
+    type: object
+    required:
+      - evaluation_asset
+      - human_review_required
+    properties:
+      evaluation_asset:
+        type: string
+      human_review_required:
+        type: boolean
